@@ -21,6 +21,10 @@ public class Procesador{
         this.tiempoProcesamiento = 0;
     }
 
+    Procesador(){
+        this.tareasAsignadas = new HashMap<>();
+        this.tiempoProcesamiento = 0;
+    }
 
     public Procesador(Procesador p){
         this.id_procesador = p.getId_procesador();
@@ -31,9 +35,14 @@ public class Procesador{
         this.tiempoProcesamiento = p.getTiempoProcesamiento();
     }
 
+    public Procesador(int tiempoProcesamiento){
+        this.tiempoProcesamiento = tiempoProcesamiento;
+    }
+
     public HashMap<String, Tarea> getTareasAsignadas() {
         return new HashMap<>(this.tareasAsignadas);
     }
+
     public int getTiempoProcesamiento() {
         return tiempoProcesamiento;
     }
@@ -66,5 +75,18 @@ public class Procesador{
 
     public String toString(){
         return "Procesador " + this.id_procesador +": "+ this.tareasAsignadas + "\n";
+    }
+
+    public void setTiempoProcesamiento(int tiempoProcesamiento) {
+        this.tiempoProcesamiento = tiempoProcesamiento;
+    }
+
+
+    public boolean equals(Object o){
+        if (o == this) return true;
+        if (o == null) return false;
+        if (o.getClass() != this.getClass()) return false;
+        Procesador p = (Procesador) o;
+        return this.id_procesador.equals(p.getId_procesador());
     }
 }
