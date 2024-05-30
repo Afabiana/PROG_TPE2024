@@ -9,6 +9,7 @@ public class Procesador{
     private String id_procesador;
     private String codigo_procesador;
     private int anio_funcionamiento;
+    private int cantidadTareasCriticas;
 
 
     public Procesador(String id_procesador, String codigo_procesador, boolean refrigerado, int anio_funcionamiento){
@@ -88,5 +89,17 @@ public class Procesador{
         if (o.getClass() != this.getClass()) return false;
         Procesador p = (Procesador) o;
         return this.id_procesador.equals(p.getId_procesador());
+    }
+
+    public int getCantidadTareasCriticas() {
+        return cantidadTareasCriticas;
+    }
+
+    public void setCantidadTareasCriticas(int cantidadTareasCriticas) {
+        this.cantidadTareasCriticas = cantidadTareasCriticas;
+    }
+
+    public void incrementarCantidadTareasCriticas() {
+        this.cantidadTareasCriticas++;
     }
 }

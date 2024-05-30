@@ -23,11 +23,13 @@ public class Main {
 
 
         System.out.println("resultado: xxxxxxxxxxxxxxxxxxxxxxxxxxx ");
-        long startTime = System.currentTimeMillis();  // Inicio del timer
-        System.out.println(algoritmoDeAsignacion.asignarTareas(procesadores, tareas, 80));
-        long endTime = System.currentTimeMillis();  // Fin del timer
-        long duration = endTime - startTime;  // Duración en milisegundos
-        System.out.println("Duración de la ejecución: " + duration + " ms");
+        long startTime = System.currentTimeMillis();  // arranca el timer
+
+        System.out.println(algoritmoDeAsignacion.asignarTareas(procesadores, tareas, 220));
+
+        long endTime = System.currentTimeMillis();  // termina el timer
+        long duracion = endTime - startTime;  // Duración en milisegundos
+        System.out.println("Duración de la ejecución: " + duracion + " ms");
 
 
         //esto del TreeMap nomas es para poder hacer ctrl + click y ver la implementacion de TreeMap
@@ -38,23 +40,5 @@ public class Main {
         lista.add(2);
         System.out.println(lista.getFirst());
 
-        /*
-        Probamos la idea de usar la dif entre tiempo maximo y minimo pero no funciono porque no es
-        representativo de TODOS los procesadores (hay procesadores que quedan vacios y no se toman en cuenta)
-        La otra idea es sacar un promedio
-        y ver cual es la diferencia de cada procesador con el promedio
-
-        ACTUALIZACION:
-            matematicamente se llama desviacion estandar (teoricamente deberia full funcionar)
-
-       Entonces la desviacion seria parte del estado en el metodo backtracking
-       para actualizar la desviacion estandar de la solucion actual deberiamos hacer:
-       int tiempoAnterior = procesadorActual.getTiempoProcesamiento();
-       procesadorActual.asignarTarea(tareaActual);
-       desviacionActual = calcularDesviacionEstandar(tiempoAnterior, procesadorActual.getTiempoProcesamiento());
-
-        y para volver atras deberiamos hacer:
-
-         */
     }
 }
