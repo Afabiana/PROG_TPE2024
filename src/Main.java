@@ -1,13 +1,7 @@
-import main.AlgoritmoDeAsignacion;
-import main.Procesador;
-import main.Servicios;
-import main.Tarea;
+import main.*;
 import utils.CSVReader;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TreeMap;
+import java.util.*;
 
 
 public class Main {
@@ -25,8 +19,9 @@ public class Main {
         System.out.println("resultado: xxxxxxxxxxxxxxxxxxxxxxxxxxx ");
         long startTime = System.currentTimeMillis();  // arranca el timer
 
-        System.out.println(algoritmoDeAsignacion.asignarTareas(procesadores, tareas, 220));
-
+        System.out.println(algoritmoDeAsignacion.asignarTareas(procesadores, tareas, 280));
+        Greedy greedy = new Greedy();
+        System.out.println(greedy.asignarTareas(procesadores, tareas, 280));
         long endTime = System.currentTimeMillis();  // termina el timer
         long duracion = endTime - startTime;  // Duración en milisegundos
         System.out.println("Duración de la ejecución: " + duracion + " ms");
@@ -40,5 +35,10 @@ public class Main {
         lista.add(2);
         System.out.println(lista.getFirst());
 
+        HashMap<Integer, Integer> numeros = new HashMap<>();
+        numeros.put(1, 1);
+        numeros.put(2, 2);
+        numeros.put(3, 3);
+        System.out.println(numeros.put(3,3));
     }
 }

@@ -49,13 +49,22 @@ public class Procesador{
     }
 
     public void asignarTarea(Tarea t){
-        this.tareasAsignadas.put(t.getId(), t);
-        this.tiempoProcesamiento += t.getTiempo();
+        // se actualiza el tiempo y la cant de criticas PERO solo si la tarea no es repetida
+        if (!this.tareasAsignadas.containsKey(t.getId())){
+            this.tareasAsignadas.put(t.getId(), t);
+            this.tiempoProcesamiento += t.getTiempo();
+
+            if (t.getEsCritica())
+                this.cantidadTareasCriticas++;
+        }
     }
 
     public void quitarTarea(Tarea t){
-        this.tiempoProcesamiento -= t.getTiempo();
         this.tareasAsignadas.remove(t.getId());
+        this.tiempoProcesamiento -= t.getTiempo();
+
+        if (t.getEsCritica())
+            this.cantidadTareasCriticas--;
     }
 
     public boolean isRefrigerado() {
@@ -75,13 +84,8 @@ public class Procesador{
     }
 
     public String toString(){
-        return "Procesador " + this.id_procesador +": "+ this.tareasAsignadas + "\n";
+        return "Procesador " + this.id_procesador +": tiempoDeProcesamiento :"+ this.tiempoProcesamiento +"\n tareas: "+ this.tareasAsignadas + "\n";
     }
-
-    public void setTiempoProcesamiento(int tiempoProcesamiento) {
-        this.tiempoProcesamiento = tiempoProcesamiento;
-    }
-
 
     public boolean equals(Object o){
         if (o == this) return true;
@@ -95,11 +99,4 @@ public class Procesador{
         return cantidadTareasCriticas;
     }
 
-    public void setCantidadTareasCriticas(int cantidadTareasCriticas) {
-        this.cantidadTareasCriticas = cantidadTareasCriticas;
-    }
-
-    public void incrementarCantidadTareasCriticas() {
-        this.cantidadTareasCriticas++;
-    }
 }
