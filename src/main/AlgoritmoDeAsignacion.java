@@ -1,14 +1,12 @@
 package main;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class AlgoritmoDeAsignacion{
     private List<Procesador> resultado;
     private List<Procesador> procesadores;
     private List<Tarea> tareas;
-    private int cantProcesadores;
     private int tiempoMaxPorProcesador;
     private int tiempoMaxSolucion;
 
@@ -20,8 +18,8 @@ public class AlgoritmoDeAsignacion{
     public List<Procesador> asignarTareas(List<Procesador> procesadores, List<Tarea> tareas, int tiempoMaxPorProcesador){
         this.procesadores = procesadores;
         this.tareas = tareas;
-        this.cantProcesadores = procesadores.size();
-        this.tiempoMaxPorProcesador = tiempoMaxPorProcesador;
+        //Collections.sort(this.tareas); esto nomas lo hice para que encuentre un toque mas rapido la solucion
+        this.tiempoMaxPorProcesador = tiempoMaxPorProcesador; //tiempo maximo que puede tener un procesador no refrigerado
         int tiempoMaxActual = 0;
         _asignarTareas( tiempoMaxActual );
         return this.resultado;
@@ -37,34 +35,41 @@ public class AlgoritmoDeAsignacion{
                 tiempoMaxSolucion = tiempoMaxActual;
                 for (Procesador procesador : procesadores)
                     resultado.add(new Procesador(procesador));
-                //tengo que hacer una copia sino cuando vuelvo en el arbol se borra el resultado
+                //tengo que hacer una copia sino cuando vuelvo en el arbol se van a modificar los procesadores
             }
         }else{
-            Tarea tareaActual = tareas.remove(tareas.size()-1);
+            Tarea tareaActual = tareas.remove(0);
             for (Procesador procesador : procesadores){
-                //esto internamente lo que hace es que si no existe la clave la crea con el valor 0
-                //auxiliares para volver hacia atras en el arbol
-                int cantTareasCriticasAnterior = procesador.getCantidadTareasCriticas();
+                //auxiliar para volver hacia atras en el arbol
                 int tiempoMaxAnterior = tiempoMaxActual;
 
-                tiempoMaxActual = Math.max(tiempoMaxActual, procesador.getTiempoProcesamiento());
-                if (tareaActual.getEsCritica())
-                    procesador.incrementarCantidadTareasCriticas();
-
                 procesador.asignarTarea(tareaActual);
-                //System.out.println("tiempo max: " + tiempoMaxActual + "antes: " + tiempoMaxAnterior);
+                tiempoMaxActual = Math.max(tiempoMaxActual, procesador.getTiempoProcesamiento());
+
+
                 if (tiempoMaxActual < tiempoMaxSolucion){
-                    if (procesador.getCantidadTareasCriticas() <= 2 &&
-                            procesador.getTiempoProcesamiento() <= tiempoMaxPorProcesador)
+                    if (seLePuedeaAsignarTareaActual(procesador, tareaActual))
                         _asignarTareas(tiempoMaxActual);
                 }
 
                 procesador.quitarTarea(tareaActual);
-                procesador.setCantidadTareasCriticas(cantTareasCriticasAnterior);
                 tiempoMaxActual = tiempoMaxAnterior;
             }
             tareas.add(tareaActual);
         }
     }
 
+    // retorna si la tarea se puede asignar al procesador
+    private boolean seLePuedeaAsignarTareaActual(Procesador procesador, Tarea tareaActual) {
+        boolean noSuperaTiempoLimite = true;
+        boolean noSuperaCantidadTareasCriticas = true;
+
+        if (!procesador.isRefrigerado())
+            noSuperaTiempoLimite = procesador.getTiempoProcesamiento() + tareaActual.getTiempo() <= tiempoMaxPorProcesador;
+        if (tareaActual.getEsCritica())
+            noSuperaCantidadTareasCriticas = procesador.getCantidadTareasCriticas() <= 2;
+
+        //evaluo ambas condiciones porque si procesador es refrigerado y la tarea es critica, ambas condiciones deben cumplirse
+        return noSuperaTiempoLimite && noSuperaCantidadTareasCriticas;
+    }
 }

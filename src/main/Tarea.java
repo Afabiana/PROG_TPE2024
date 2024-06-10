@@ -1,6 +1,6 @@
 package main;
 
-public class Tarea {
+public class Tarea implements Comparable<Tarea> {
     private String id;
     private String nombre;
     private Integer tiempo;
@@ -38,6 +38,11 @@ public class Tarea {
 
     public Integer getPrioridad() {
         return prioridad;
+    }
+
+    @Override
+    public int compareTo(Tarea tarea) {
+        return tarea.getTiempo().compareTo(this.tiempo);
     }
 
     public String toString(){
