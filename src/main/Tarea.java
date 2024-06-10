@@ -42,7 +42,8 @@ public class Tarea {
 
     public String toString(){
         // no especifico el id porque al imprimir el hashmap de procesadores se agrega el id/key por defecto (el toString de hashmap)
-        return "duracion: " + this.tiempo
+        return  this.id + " " +
+                "prioridad: " + this.prioridad
                 + " critica: " + this.esCritica;
     }
 

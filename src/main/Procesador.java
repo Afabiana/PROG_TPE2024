@@ -14,7 +14,6 @@ public class Procesador{
 
     public Procesador(String id_procesador, String codigo_procesador, boolean refrigerado, int anio_funcionamiento){
         this.id_procesador = id_procesador;
-        System.out.println("Procesador: " + id_procesador);
         this.codigo_procesador = codigo_procesador;
         this.refrigerado = refrigerado;
         this.anio_funcionamiento = anio_funcionamiento;

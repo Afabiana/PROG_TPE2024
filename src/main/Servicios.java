@@ -1,11 +1,9 @@
 package main;
 
+import com.sun.jmx.snmp.internal.SnmpSubSystem;
 import utils.CSVReader;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * NO modificar la interfaz de esta clase ni sus métodos públicos.
@@ -14,23 +12,39 @@ import java.util.List;
  */
 public class Servicios {
 
-    HashMap<String, Tarea> tareas = new HashMap<>();
+
+    private HashMap<String, Tarea> tareas = new HashMap<>();
+    private TreeMap<Integer, ArrayList<String>> arbolito;
+    private int LIMITEDEPRIORIDAD;
     /*
      * Expresar la complejidad temporal del constructor.
      */
     public Servicios(String pathProcesadores, String pathTareas)
     {
+        LIMITEDEPRIORIDAD = 99;
         CSVReader reader = new CSVReader();
+        arbolito = new TreeMap();
+        this.inicializarArbol();
         reader.readProcessors(pathProcesadores);
         List<Tarea> tareas = reader.readTasks(pathTareas);
-        cargarTareas(tareas);
+        this.cargarTareas(tareas);
+    }
 
-
+    private void inicializarArbol(){
+        //inicializamos el arbol con los 100 valores posibles de prioridad.
+        for (int i=1; i<100; i++){
+            arbolito.put(i, new ArrayList<>());
+        }
     }
 
     private void cargarTareas(List<Tarea> tareas) {
+
         for(Tarea tarea : tareas){
+            //se carga en la matriz
             this.tareas.put(tarea.getId(), tarea);
+            //se carga en el arbol su id, según la prioridad
+            ArrayList<String> valor= arbolito.get(tarea.getPrioridad());
+            valor.add(tarea.getId());
         }
     }
 
@@ -48,10 +62,16 @@ public class Servicios {
      * Permitir que el usuario decida si quiere ver todas las tareas críticas o no críticas y generar
      * el listado apropiado resultante.
      *
-     *
+     * O(n)
      */
     public List<Tarea> servicio2(boolean esCritica) {
         List<Tarea> resultado = new ArrayList<>();
+
+        for (Tarea t: tareas.values()) {
+            if(t.getEsCritica() == esCritica){
+                resultado.add(t);
+            }
+        }
 
         return resultado;
     }
@@ -61,9 +81,43 @@ public class Servicios {
      * Obtener todas las tareas entre 2 niveles de prioridad indicados.
      *
      * EVALUANDO USAR UN TREEMAP PARA ESTE SERVICIO
+     *
+     * caso promedio  O(log n)
+     * peor caso  O(log n * n)
+     * Gran alternativa por el uso en memoria
      */
     public List<Tarea> servicio3(int prioridadInferior, int prioridadSuperior) {
-        return null;
+        int cursor = prioridadInferior;
+        ArrayList<String> claves = new ArrayList<>();
+        ArrayList<Tarea> valores = new ArrayList<>();
+
+        while(cursor <= prioridadSuperior && cursor < LIMITEDEPRIORIDAD){
+            claves.addAll(arbolito.get(cursor));
+            cursor++;
+        }
+
+        for (String clave: claves) {
+            valores.add(tareas.get(clave));
+        }
+
+
+        return valores;
+    }
+
+
+    /*
+     * para chequear
+     */
+    public List<Tarea> servicio4(int prioridadInferior, int prioridadSuperior) {
+        ArrayList<Tarea> copia = new ArrayList<>();
+
+        for (Tarea t: tareas.values()) {
+            int prioActual = t.getPrioridad();
+            if(prioridadInferior <= prioActual && prioridadSuperior >= prioActual){
+                copia.add(t);
+            }
+        }
+        return copia;
     }
 
 }
