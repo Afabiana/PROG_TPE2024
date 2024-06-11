@@ -28,7 +28,16 @@ public class AlgoritmoDeAsignacion{
 
     }
 
-
+    /*
+    * La tecnica en este caso es de backtracking
+    * -Se recorren todas las tareas y se intenta asignar a todos los procesadores
+    * -Se evalua si se puede asignar la tarea al procesador
+    * -Si se puede, se asigna y se llama recursivamente a la funcion con la tarea siguiente
+    * -Se evalua si la solucion actual es mejor que la solucion anterior
+    * -Si es mejor, se actualiza la solucion
+    * -Despues para volver en el arból se quita la tarea asignada y se prueba asignandola a otro procesador
+    * -COMPLEJIDAD: O(m^n) donde n es la cantidad de tareas y m la cantidad de procesadores
+    * */
     private void _asignarTareas( int tiempoMaxActual) {
         if (tareas.isEmpty()){
             if(tiempoMaxActual < tiempoMaxSolucion){
@@ -75,16 +84,16 @@ public class AlgoritmoDeAsignacion{
     }
 
     public void imprimirResultado(){
-        String resultado = "Solución obtenida: \n";
-
-        //Solución obtenida: cada procesador con las tareas asignadas.
-        //Solución obtenida: tiempo máximo de ejecución.
-        //Métrica para analizar el costo de la solución (cantidad de estados generados)
-        for (Procesador procesador : this.resultado){
-            resultado += procesador.toString();
+        if(!resultado.isEmpty()){
+            String resultado = "Solución obtenida: \n";
+            for (Procesador procesador : this.resultado){
+                resultado += procesador.toString();
+            }
+            resultado += "Solucion obtenida - Tiempo máximo de ejecución: " + this.tiempoMaxSolucion + "\n";
+            resultado += "Cantidad de estados generados: " + this.cantidadEstados + "\n";
+            System.out.println(resultado);
+        }else {
+            System.out.println("No se puede asignar las tareas a los procesadores");
         }
-        resultado += "Solucion obtenida - Tiempo máximo de ejecución: " + this.tiempoMaxSolucion + "\n";
-        resultado += "Cantidad de estados generados: " + this.cantidadEstados + "\n";
-        System.out.println(resultado);
     }
 }

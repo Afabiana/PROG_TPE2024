@@ -17,13 +17,13 @@ public class Main {
 
         System.out.println("resultado: xxxxxxxxxxxxxxxxxxxxxxxxxxx ");
         long startTime = System.currentTimeMillis();  // arranca el timer
-
+        int tiempoLimite = 50;
         AlgoritmoDeAsignacion algoritmoDeAsignacion = new AlgoritmoDeAsignacion();
-        algoritmoDeAsignacion.asignarTareas(procesadores, tareas, 280);
+        algoritmoDeAsignacion.asignarTareas(procesadores, tareas, tiempoLimite);
         algoritmoDeAsignacion.imprimirResultado();
 
         Greedy greedy = new Greedy();
-        greedy.asignarTareas(procesadores, tareas, 280);
+        greedy.asignarTareas(procesadores, tareas, tiempoLimite);
         greedy.imprimirResultado();
 
 
@@ -32,18 +32,5 @@ public class Main {
         System.out.println("Duración de la ejecución: " + duracion + " ms");
 
 
-        //esto del TreeMap nomas es para poder hacer ctrl + click y ver la implementacion de TreeMap
-        TreeMap<String, Integer> arbolito = new TreeMap();
-
-        LinkedList<Integer> lista = new LinkedList<>();
-        lista.add(1);
-        lista.add(2);
-        System.out.println(lista.getFirst());
-
-        HashMap<Integer, Integer> numeros = new HashMap<>();
-        numeros.put(1, 1);
-        numeros.put(2, 2);
-        numeros.put(3, 3);
-        System.out.println(numeros.put(3,3));
     }
 }

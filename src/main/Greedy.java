@@ -28,18 +28,29 @@ public class Greedy {
         return this.resultado;
     }
 
+
+    /*
+    * La tecnica implementada se basa en
+    * -Ordenar las tareas de mayor a menor tiempo de ejecución
+    * -Iterar sobre las tareas y asignarlas a los procesadores disponibles que cumplan con las limitaciones
+    * -ACLARACION: en este caso los candidatos son los procesadores
+    * -El criterio para seleccionar el mejor candidato: el procesador con menor tiempo de procesamiento
+    *
+    * -COMPLEJIDAD: O(n*m) donde n es la cantidad de tareas y m la cantidad de procesadores
+    * ya que en el peor de los casos se recorren todas las tareas y se intenta asignar a todos los procesadores
+    *
+    */
     private List<Procesador> greedy() {
-        ordenarTareas(); // ordena las tareas de mayor a menor tiempo de ejecución
+        ordenarTareas();
         while(!tareas.isEmpty()){
-            boolean tareaAsignada = false; // flag para saber si se pudo encontrar un procesador disponible que cumpla con las limitaciones
+            boolean tareaAsignada = false;
             Tarea tareaActual = tareas.remove(0); // recien se actualiza la tarea actual cuando ya se pudo asignar la tarea anterior
             Procesador mejorProcesador = seleccionarProcesadorMenosOcupado();
 
             while (!tareaAsignada && procesadoresNoDisponibles.size()!=procesadores.size()){
 
-                this.cantidadEstados++;
-
                 if(seLePuedeaAsignarTareaActual(mejorProcesador, tareaActual)){
+                    this.cantidadEstados++;
                     mejorProcesador.asignarTarea(tareaActual);
                     tareaAsignada = true; // si se asigna la tarea, se cambia el flag para cortar el while
                     tiempoMaxSolucion = Math.max(tiempoMaxSolucion, mejorProcesador.getTiempoProcesamiento());
@@ -64,7 +75,7 @@ public class Greedy {
         boolean noSuperaTiempoLimite = true;
         boolean noSuperaCantidadTareasCriticas = true;
 
-        if (mejorProcesador.isRefrigerado())
+        if (!mejorProcesador.isRefrigerado())
             noSuperaTiempoLimite = mejorProcesador.getTiempoProcesamiento() + tareaActual.getTiempo() <= tiempoLimite;
         if (tareaActual.getEsCritica())
             noSuperaCantidadTareasCriticas = mejorProcesador.getCantidadTareasCriticas() < 2;
@@ -91,12 +102,17 @@ public class Greedy {
 
 
     public void imprimirResultado(){
-        String resultado = "Solución obtenida: \n";
-        for (Procesador procesador : this.resultado){
-            resultado += procesador.toString();
+        if (!this.resultado.isEmpty()){
+            String resultado = "Solución obtenida: \n";
+            for (Procesador procesador : this.resultado){
+                resultado += procesador.toString();
+            }
+            resultado += "Solucion obtenida - Tiempo máximo de ejecución: " + this.tiempoMaxSolucion + "\n";
+            resultado += "Cantidad de estados generados: " + this.cantidadEstados + "\n";
+            System.out.println(resultado);
+        }else {
+            System.out.println("No se pudo asignar las tareas a los procesadores");
         }
-        resultado += "Solucion obtenida - Tiempo máximo de ejecución: " + this.tiempoMaxSolucion + "\n";
-        resultado += "Cantidad de estados generados: " + this.cantidadEstados + "\n";
-        System.out.println(resultado);
+
     }
 }
