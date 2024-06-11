@@ -13,7 +13,7 @@ public class Servicios {
 
 
     private HashMap<String, Tarea> tareas = new HashMap<>();
-    private TreeMap<Integer, ArrayList<String>> arbolito;
+    private TreeMap<Integer, ArrayList<Tarea>> arbolito;
     private int LIMITEDEPRIORIDAD;
     /*
      * Expresar la complejidad temporal del constructor.
@@ -31,7 +31,7 @@ public class Servicios {
 
     private void inicializarArbol(){
         //inicializamos el arbol con los 100 valores posibles de prioridad.
-        for (int i=1; i<100; i++){
+        for (int i=1; i<=LIMITEDEPRIORIDAD; i++){
             arbolito.put(i, new ArrayList<>());
         }
     }
@@ -42,8 +42,8 @@ public class Servicios {
             //se carga en la matriz
             this.tareas.put(tarea.getId(), tarea);
             //se carga en el arbol su id, según la prioridad
-            ArrayList<String> valor= arbolito.get(tarea.getPrioridad());
-            valor.add(tarea.getId());
+            ArrayList<Tarea> registros= arbolito.get(tarea.getPrioridad());
+            registros.add(tarea);
         }
     }
 
@@ -79,43 +79,20 @@ public class Servicios {
      * Expresar la complejidad temporal del servicio 3.
      * Obtener todas las tareas entre 2 niveles de prioridad indicados.
      *
-     * EVALUANDO USAR UN TREEMAP PARA ESTE SERVICIO
-     *
-     * caso promedio  O(log n)
-     * peor caso  O(log n * n)
+     * peor caso  O(log n)
      * Gran alternativa por el uso en memoria
      */
     public List<Tarea> servicio3(int prioridadInferior, int prioridadSuperior) {
         int cursor = prioridadInferior;
-        ArrayList<String> claves = new ArrayList<>();
-        ArrayList<Tarea> valores = new ArrayList<>();
+        ArrayList<Tarea> registros = new ArrayList<>();
 
         while(cursor <= prioridadSuperior && cursor < LIMITEDEPRIORIDAD){
-            claves.addAll(arbolito.get(cursor));
+            registros.addAll(arbolito.get(cursor));
             cursor++;
         }
 
-        for (String clave: claves) {
-            valores.add(tareas.get(clave));
-        }
-
-        return valores;
+        return registros;
     }
 
-
-    /*
-     * para chequear
-     */
-    public List<Tarea> servicio4(int prioridadInferior, int prioridadSuperior) {
-        ArrayList<Tarea> copia = new ArrayList<>();
-
-        for (Tarea t: tareas.values()) {
-            int prioActual = t.getPrioridad();
-            if(prioridadInferior <= prioActual && prioridadSuperior >= prioActual){
-                copia.add(t);
-            }
-        }
-        return copia;
-    }
 
 }
