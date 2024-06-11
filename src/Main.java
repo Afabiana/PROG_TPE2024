@@ -8,7 +8,6 @@ public class Main {
     public static void main(String[] args) {
         //Servicios servicios = new Servicios("./src/datasets/Procesadores.csv", "./src/datasets/Tareas.csv");
 
-        AlgoritmoDeAsignacion algoritmoDeAsignacion = new AlgoritmoDeAsignacion();
 
         CSVReader reader = new CSVReader();
 
@@ -19,9 +18,15 @@ public class Main {
         System.out.println("resultado: xxxxxxxxxxxxxxxxxxxxxxxxxxx ");
         long startTime = System.currentTimeMillis();  // arranca el timer
 
-        System.out.println(algoritmoDeAsignacion.asignarTareas(procesadores, tareas, 280));
+        AlgoritmoDeAsignacion algoritmoDeAsignacion = new AlgoritmoDeAsignacion();
+        algoritmoDeAsignacion.asignarTareas(procesadores, tareas, 280);
+        algoritmoDeAsignacion.imprimirResultado();
+
         Greedy greedy = new Greedy();
-        System.out.println(greedy.asignarTareas(procesadores, tareas, 280));
+        greedy.asignarTareas(procesadores, tareas, 280);
+        greedy.imprimirResultado();
+
+
         long endTime = System.currentTimeMillis();  // termina el timer
         long duracion = endTime - startTime;  // Duración en milisegundos
         System.out.println("Duración de la ejecución: " + duracion + " ms");

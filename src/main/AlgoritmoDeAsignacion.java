@@ -9,16 +9,18 @@ public class AlgoritmoDeAsignacion{
     private List<Tarea> tareas;
     private int tiempoMaxPorProcesador;
     private int tiempoMaxSolucion;
+    private int cantidadEstados;
 
     public AlgoritmoDeAsignacion(){
         this.resultado = new ArrayList<>();
         this.tiempoMaxSolucion = Integer.MAX_VALUE;
+        this.cantidadEstados = 0;
     }
 
     public List<Procesador> asignarTareas(List<Procesador> procesadores, List<Tarea> tareas, int tiempoMaxPorProcesador){
         this.procesadores = procesadores;
         this.tareas = tareas;
-        //Collections.sort(this.tareas); esto nomas lo hice para que encuentre un toque mas rapido la solucion
+        //Collections.sort(this.tareas); esto nomas lo hice para que al probarlo encuentre un toque mas rapido la solucion
         this.tiempoMaxPorProcesador = tiempoMaxPorProcesador; //tiempo maximo que puede tener un procesador no refrigerado
         int tiempoMaxActual = 0;
         _asignarTareas( tiempoMaxActual );
@@ -28,7 +30,6 @@ public class AlgoritmoDeAsignacion{
 
 
     private void _asignarTareas( int tiempoMaxActual) {
-
         if (tareas.isEmpty()){
             if(tiempoMaxActual < tiempoMaxSolucion){
                 resultado.clear();
@@ -40,12 +41,12 @@ public class AlgoritmoDeAsignacion{
         }else{
             Tarea tareaActual = tareas.remove(0);
             for (Procesador procesador : procesadores){
+                this.cantidadEstados++;
                 //auxiliar para volver hacia atras en el arbol
                 int tiempoMaxAnterior = tiempoMaxActual;
 
                 procesador.asignarTarea(tareaActual);
                 tiempoMaxActual = Math.max(tiempoMaxActual, procesador.getTiempoProcesamiento());
-
 
                 if (tiempoMaxActual < tiempoMaxSolucion){
                     if (seLePuedeaAsignarTareaActual(procesador, tareaActual))
@@ -71,5 +72,19 @@ public class AlgoritmoDeAsignacion{
 
         //evaluo ambas condiciones porque si procesador es refrigerado y la tarea es critica, ambas condiciones deben cumplirse
         return noSuperaTiempoLimite && noSuperaCantidadTareasCriticas;
+    }
+
+    public void imprimirResultado(){
+        String resultado = "Solución obtenida: \n";
+
+        //Solución obtenida: cada procesador con las tareas asignadas.
+        //Solución obtenida: tiempo máximo de ejecución.
+        //Métrica para analizar el costo de la solución (cantidad de estados generados)
+        for (Procesador procesador : this.resultado){
+            resultado += procesador.toString();
+        }
+        resultado += "Solucion obtenida - Tiempo máximo de ejecución: " + this.tiempoMaxSolucion + "\n";
+        resultado += "Cantidad de estados generados: " + this.cantidadEstados + "\n";
+        System.out.println(resultado);
     }
 }

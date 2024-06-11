@@ -47,9 +47,11 @@ public class Tarea implements Comparable<Tarea> {
 
     public String toString(){
         // no especifico el id porque al imprimir el hashmap de procesadores se agrega el id/key por defecto (el toString de hashmap)
-        return  this.id + " " +
+        return  "\t" +
+                this.id + " " +
                 "prioridad: " + this.prioridad
-                + " critica: " + this.esCritica;
+                + " critica: " + this.esCritica
+                + " tiempo: " + this.tiempo + "\n";
     }
 
 

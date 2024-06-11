@@ -11,6 +11,8 @@ public class Greedy {
     private List<Tarea> tareas;
     private int tiempoLimite;
     private HashSet<String> procesadoresNoDisponibles;
+    private int cantidadEstados;
+    private int tiempoMaxSolucion;
 
     public Greedy(){
         this.resultado = new ArrayList<>();
@@ -22,20 +24,25 @@ public class Greedy {
         this.tareas = tareas;
         this.tiempoLimite = tiempoLimite;
         this.procesadoresNoDisponibles = new HashSet<>();
-        return greedy();
-
+        greedy();
+        return this.resultado;
     }
 
     private List<Procesador> greedy() {
-        ordenarTareas();
+        ordenarTareas(); // ordena las tareas de mayor a menor tiempo de ejecución
         while(!tareas.isEmpty()){
             boolean tareaAsignada = false; // flag para saber si se pudo encontrar un procesador disponible que cumpla con las limitaciones
             Tarea tareaActual = tareas.remove(0); // recien se actualiza la tarea actual cuando ya se pudo asignar la tarea anterior
             Procesador mejorProcesador = seleccionarProcesadorMenosOcupado();
+
             while (!tareaAsignada && procesadoresNoDisponibles.size()!=procesadores.size()){
+
+                this.cantidadEstados++;
+
                 if(seLePuedeaAsignarTareaActual(mejorProcesador, tareaActual)){
                     mejorProcesador.asignarTarea(tareaActual);
-                    tareaAsignada = true; // si se asigna la tarea, se cambia el flag y corta el while
+                    tareaAsignada = true; // si se asigna la tarea, se cambia el flag para cortar el while
+                    tiempoMaxSolucion = Math.max(tiempoMaxSolucion, mejorProcesador.getTiempoProcesamiento());
                     procesadoresNoDisponibles.clear(); // se limpia la lista de procesadores no disponibles para que TODOS vuelvan a ser candidatos para la prox tarea
                 }else {
                     procesadoresNoDisponibles.add(mejorProcesador.getId_procesador());
@@ -82,4 +89,14 @@ public class Greedy {
         Collections.sort(tareas);
     }
 
+
+    public void imprimirResultado(){
+        String resultado = "Solución obtenida: \n";
+        for (Procesador procesador : this.resultado){
+            resultado += procesador.toString();
+        }
+        resultado += "Solucion obtenida - Tiempo máximo de ejecución: " + this.tiempoMaxSolucion + "\n";
+        resultado += "Cantidad de estados generados: " + this.cantidadEstados + "\n";
+        System.out.println(resultado);
+    }
 }

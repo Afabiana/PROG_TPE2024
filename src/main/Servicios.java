@@ -1,6 +1,5 @@
 package main;
 
-import com.sun.jmx.snmp.internal.SnmpSubSystem;
 import utils.CSVReader;
 
 import java.util.*;
