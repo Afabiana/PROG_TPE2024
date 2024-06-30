@@ -38,6 +38,7 @@ public class AlgoritmoDeAsignacion{
     * -Despues para volver en el arból se quita la tarea asignada y se prueba asignandola a otro procesador
     * -COMPLEJIDAD: O(m^n) donde n es la cantidad de tareas y m la cantidad de procesadores
     * */
+
     private void _asignarTareas( int tiempoMaxActual) {
         if (tareas.isEmpty()){
             if(tiempoMaxActual < tiempoMaxSolucion){
@@ -48,7 +49,7 @@ public class AlgoritmoDeAsignacion{
                 //tengo que hacer una copia sino cuando vuelvo en el arbol se van a modificar los procesadores
             }
         }else{
-            Tarea tareaActual = tareas.remove(0);
+            Tarea tareaActual = tareas.removeFirst();
             for (Procesador procesador : procesadores){
                 this.cantidadEstados++;
                 //auxiliar para volver hacia atras en el arbol
@@ -75,8 +76,8 @@ public class AlgoritmoDeAsignacion{
         boolean noSuperaCantidadTareasCriticas = true;
 
         if (!procesador.isRefrigerado())
-            noSuperaTiempoLimite = procesador.getTiempoProcesamiento() + tareaActual.getTiempo() <= tiempoMaxPorProcesador;
-        if (tareaActual.getEsCritica())
+            noSuperaTiempoLimite = procesador.getTiempoProcesamiento() <= tiempoMaxPorProcesador;
+        if (tareaActual.esCritica())
             noSuperaCantidadTareasCriticas = procesador.getCantidadTareasCriticas() <= 2;
 
         //evaluo ambas condiciones porque si procesador es refrigerado y la tarea es critica, ambas condiciones deben cumplirse
@@ -84,6 +85,7 @@ public class AlgoritmoDeAsignacion{
     }
 
     public void imprimirResultado(){
+        System.out.println("BACKTRACKING:");
         if(!resultado.isEmpty()){
             String resultado = "Solución obtenida: \n";
             for (Procesador procesador : this.resultado){

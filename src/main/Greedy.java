@@ -33,7 +33,7 @@ public class Greedy {
     * La tecnica implementada se basa en
     * -Ordenar las tareas de mayor a menor tiempo de ejecución
     * -Iterar sobre las tareas y asignarlas a los procesadores disponibles que cumplan con las limitaciones
-    * -ACLARACION: en este caso los candidatos son los procesadores
+    * -ACLARACION: en este caso los candidatos son las tareas, no los procesadores
     * -El criterio para seleccionar el mejor candidato: el procesador con menor tiempo de procesamiento
     *
     * -COMPLEJIDAD: O(n*m) donde n es la cantidad de tareas y m la cantidad de procesadores
@@ -77,7 +77,7 @@ public class Greedy {
 
         if (!mejorProcesador.isRefrigerado())
             noSuperaTiempoLimite = mejorProcesador.getTiempoProcesamiento() + tareaActual.getTiempo() <= tiempoLimite;
-        if (tareaActual.getEsCritica())
+        if (tareaActual.esCritica())
             noSuperaCantidadTareasCriticas = mejorProcesador.getCantidadTareasCriticas() < 2;
 
         return noSuperaTiempoLimite && noSuperaCantidadTareasCriticas;

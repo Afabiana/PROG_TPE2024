@@ -53,7 +53,7 @@ public class Procesador{
             this.tareasAsignadas.put(t.getId(), t);
             this.tiempoProcesamiento += t.getTiempo();
 
-            if (t.getEsCritica())
+            if (t.esCritica())
                 this.cantidadTareasCriticas++;
         }
     }
@@ -62,7 +62,7 @@ public class Procesador{
         this.tareasAsignadas.remove(t.getId());
         this.tiempoProcesamiento -= t.getTiempo();
 
-        if (t.getEsCritica())
+        if (t.esCritica())
             this.cantidadTareasCriticas--;
     }
 

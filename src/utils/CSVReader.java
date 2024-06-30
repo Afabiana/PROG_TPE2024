@@ -5,10 +5,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import main.Procesador;
 import main.Tarea;
@@ -18,8 +15,8 @@ public class CSVReader {
 	public CSVReader() {
 	}
 	
-	public Map<String, Tarea> readTasks(String taskPath) {
-		Map<String, Tarea> tareas = new HashMap<>();
+	public LinkedList<Tarea> readTasks(String taskPath) {
+		LinkedList<Tarea> tareas = new LinkedList<>();
 		// Obtengo una lista con las lineas del archivo
 		// lines.get(0) tiene la primer linea del archivo
 		// lines.get(1) tiene la segunda linea del archivo... y así
@@ -35,7 +32,7 @@ public class CSVReader {
 			// Aca instanciar lo que necesiten en base a los datos leidos
 			Tarea actual = new Tarea(id, nombre, tiempo, critica, prioridad);
 			//System.out.println(actual);
-			tareas.put(id, actual);
+			tareas.add(actual);
 		}
 		return tareas;
 	}
