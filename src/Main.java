@@ -7,11 +7,16 @@ import main.tree.Tree;
 public class Main {
     public static void main(String[] args) {
 
+
+
         Servicios servicios = new Servicios("./src/datasets/Procesadores.csv", "./src/datasets/Tareas1.csv");
 
+
         CSVReader reader = new CSVReader();
-        LinkedList<Tarea> tareas = reader.readTasks("./src/datasets/Tareas1.csv");
         List<Procesador> procesadores = reader.readProcessors("./src/datasets/Procesadores.csv");
+        LinkedList<Tarea> tareas1 = reader.readTasks("./src/datasets/Tareas1.csv");
+        LinkedList<Tarea> tareas2 = reader.readTasks("./src/datasets/Tareas2.csv");
+
 
         System.out.println("arbol: " + servicios.getArbol());
 
@@ -38,50 +43,70 @@ public class Main {
         System.out.println("Tareas entre prioridades 30 y 60: " + tareasEntrePrioridades);
 
         //BACKTRACKING con dataset 1 y Tiempo máximo de procesadores no refrigerados = 10
+        Backtracking backtracking = new Backtracking(procesadores, tareas1);
+        Greedy greedy = new Greedy(procesadores, tareas1);
         int tiempoMaxPorProcesador = 10;
-        Backtracking backtracking = new Backtracking();
-        backtracking.asignarTareas(procesadores, tareas, tiempoMaxPorProcesador);
+        System.out.println("dataset 1 - tiempo maximo de procesadores no refrigerados = 10");
+
+        backtracking.asignarTareas( tiempoMaxPorProcesador  );
         backtracking.imprimirResultado();
 
         //GREEDY con dataset 1 y Tiempo máximo de procesadores no refrigerados = 10
-        Greedy greedy = new Greedy();
-        greedy.asignarTareas(procesadores, tareas, tiempoMaxPorProcesador);
+        greedy.asignarTareas(   tiempoMaxPorProcesador  );
         greedy.imprimirResultado();
 
         //BACKTRACKING con dataset 1 y Tiempo máximo de procesadores no refrigerados = 200
+        backtracking = new Backtracking(procesadores, tareas1);
+        System.out.println("dataset 1 - tiempo maximo de procesadores no refrigerados = 200");
         tiempoMaxPorProcesador = 200;
-        backtracking.asignarTareas(procesadores, tareas, tiempoMaxPorProcesador);
+
+        backtracking.asignarTareas( tiempoMaxPorProcesador  );
         backtracking.imprimirResultado();
 
         //GREEDY con dataset 1 y Tiempo máximo de procesadores no refrigerados = 200
-        greedy.asignarTareas(procesadores, tareas, tiempoMaxPorProcesador);
+        greedy = new Greedy(procesadores, tareas1);
+        greedy.asignarTareas(   tiempoMaxPorProcesador  );
         greedy.imprimirResultado();
 
         //TEST CON DATASET 2
+        backtracking = new Backtracking(procesadores, tareas2);
+        greedy = new Greedy(procesadores, tareas2);
         tiempoMaxPorProcesador = 200;
+        System.out.println("dataset 2 - tiempo maximo de procesadores no refrigerados = 200");
 
         //BACKTRACKING con dataset 2 y Tiempo máximo de procesadores no refrigerados = 200
-        LinkedList<Tarea> tareas2 = reader.readTasks("./src/datasets/Tareas2.csv");
-        backtracking.asignarTareas(procesadores, tareas2, tiempoMaxPorProcesador);
+        backtracking.asignarTareas(   tiempoMaxPorProcesador   );
         backtracking.imprimirResultado();
 
         //GREEDY con dataset 2 y Tiempo máximo de procesadores no refrigerados = 200
-        greedy.asignarTareas(procesadores, tareas2, tiempoMaxPorProcesador);
+        greedy.asignarTareas(   tiempoMaxPorProcesador  );
         greedy.imprimirResultado();
 
         //BACKTRACKING con dataset 2 y Tiempo máximo de procesadores no refrigerados = 100
+        backtracking = new Backtracking(procesadores, tareas2);
+        greedy = new Greedy(procesadores, tareas2);
         tiempoMaxPorProcesador = 100;
-        backtracking.asignarTareas(procesadores, tareas2, tiempoMaxPorProcesador);
+        System.out.println("dataset 2 - tiempo maximo de procesadores no refrigerados = 100");
+
+        backtracking.asignarTareas(   tiempoMaxPorProcesador   );
         backtracking.imprimirResultado();
 
         //GREEDY con dataset 2 y Tiempo máximo de procesadores no refrigerados = 100
-        greedy.asignarTareas(procesadores, tareas2, tiempoMaxPorProcesador);
+        greedy.asignarTareas(   tiempoMaxPorProcesador   );
         greedy.imprimirResultado();
 
         //BACKTRACKING con dataset 2 y Tiempo máximo de procesadores no refrigerados = 80
+        backtracking = new Backtracking(procesadores, tareas2);
+        greedy = new Greedy(procesadores, tareas2);
         tiempoMaxPorProcesador = 80;
-        backtracking.asignarTareas(procesadores, tareas2, tiempoMaxPorProcesador);
+
+        backtracking.asignarTareas(   tiempoMaxPorProcesador   );
         backtracking.imprimirResultado();
+
+
+        //GREEDY con dataset 2 y Tiempo máximo de procesadores no refrigerados = 80
+        greedy.asignarTareas(   tiempoMaxPorProcesador   );
+        greedy.imprimirResultado();
 /*
         //ahora vamos a probar el arbol AVL
         Tree<Integer, String> tree = new Tree<>();

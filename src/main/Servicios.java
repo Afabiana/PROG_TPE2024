@@ -18,6 +18,7 @@ public class Servicios {
     private List<Tarea> tareasCriticas;
     private List<Tarea> tareasNoCriticas;
     private Tree<Integer, Tarea> arbol;
+    private List<Procesador> procesadores;
     private int LIMITEDEPRIORIDAD;
 
     /*
@@ -27,7 +28,7 @@ public class Servicios {
     {
         LIMITEDEPRIORIDAD = 100;
         CSVReader reader = new CSVReader();
-        reader.readProcessors(pathProcesadores);
+        this.procesadores = reader.readProcessors(pathProcesadores);
         //inicializamos las estructuras
         this.tareasInicial = reader.readTasks(pathTareas);
         this.mapTareas = new HashMap<>();
@@ -79,8 +80,6 @@ public class Servicios {
     /*
      * Expresar la complejidad temporal del servicio 3.
      * Obtener todas las tareas entre 2 niveles de prioridad indicados.
-     *
-     *
      */
     public List<Tarea> servicio3(int prioridadInferior, int prioridadSuperior) {
         return this.arbol.searchBetween(prioridadInferior, prioridadSuperior);
@@ -89,5 +88,13 @@ public class Servicios {
     //getter para test
     public Tree<Integer, Tarea> getArbol() {
         return arbol;
+    }
+
+    public List<Procesador> getProcesadores() {
+        return this.procesadores;
+    }
+
+    public List<Tarea> getTareas() {
+        return this.tareasInicial;
     }
 }

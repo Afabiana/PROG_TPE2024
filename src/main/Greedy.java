@@ -1,9 +1,6 @@
 package main;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 public class Greedy {
     private List<Procesador> resultado;
@@ -14,16 +11,18 @@ public class Greedy {
     private int cantidadEstados;
     private int tiempoMaxSolucion;
 
-    public Greedy(){
-        this.resultado = new ArrayList<>();
+    public Greedy(List<Procesador> procesadores, List<Tarea> tareas){
+        this.procesadores = new ArrayList<>(procesadores);
+        this.tareas = new LinkedList<>(tareas);
     }
 
-    public List<Procesador> asignarTareas(List<Procesador> procesadores, List<Tarea> tareas, int tiempoLimite){
+    public List<Procesador> asignarTareas( int tiempoLimite){
         //capaz todas estas variables se podrian pasar por parametro en el constructor
-        this.procesadores = procesadores;
-        this.tareas = tareas;
+        this.resultado = new ArrayList<>();
         this.tiempoLimite = tiempoLimite;
         this.procesadoresNoDisponibles = new HashSet<>();
+        this.cantidadEstados = 0;
+        this.tiempoMaxSolucion = 0;
         greedy();
         return this.resultado;
     }
@@ -42,9 +41,10 @@ public class Greedy {
     */
     private List<Procesador> greedy() {
         ordenarTareas();
+
         while(!tareas.isEmpty()){
             boolean tareaAsignada = false;
-            Tarea tareaActual = tareas.remove(0); // recien se actualiza la tarea actual cuando ya se pudo asignar la tarea anterior
+            Tarea tareaActual = tareas.removeFirst(); // recien se actualiza la tarea actual cuando ya se pudo asignar la tarea anterior
             Procesador mejorProcesador = seleccionarProcesadorMenosOcupado();
 
             while (!tareaAsignada && procesadoresNoDisponibles.size()!=procesadores.size()){

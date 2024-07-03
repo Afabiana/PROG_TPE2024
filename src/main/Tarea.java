@@ -47,7 +47,11 @@ public class Tarea implements Comparable<Tarea> {
 
     public String toString(){
         return
-                this.id + " ";
+                this.id + " " +
+                        this.nombre + " " +
+                        this.tiempo + " " +
+                        this.esCritica + " " +
+                        this.prioridad + "\n";
     }
 
     @Override

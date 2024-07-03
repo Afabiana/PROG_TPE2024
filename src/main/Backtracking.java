@@ -1,6 +1,7 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Backtracking {
@@ -11,21 +12,21 @@ public class Backtracking {
     private int tiempoMaxSolucion;
     private int cantidadEstados;
 
-    public Backtracking(){
+    public Backtracking(List<Procesador> procesadores, List<Tarea> tareas){
+        this.procesadores = new ArrayList<>(procesadores);
+        this.tareas = new LinkedList<>(tareas);
+        this.cantidadEstados = 0;
         this.resultado = new ArrayList<>();
         this.tiempoMaxSolucion = Integer.MAX_VALUE;
-        this.cantidadEstados = 0;
     }
 
-    public List<Procesador> asignarTareas(List<Procesador> procesadores, List<Tarea> tareas, int tiempoMaxPorProcesador){
-        this.procesadores = procesadores;
-        this.tareas = tareas;
+    public List<Procesador> asignarTareas(int tiempoMaxPorProcesador){
+        System.out.println("tiempo maximo por procesador: " + tiempoMaxPorProcesador);
         //Collections.sort(this.tareas); esto nomas lo hice para que al probarlo encuentre un toque mas rapido la solucion
         this.tiempoMaxPorProcesador = tiempoMaxPorProcesador; //tiempo maximo que puede tener un procesador no refrigerado
         int tiempoMaxActual = 0;
         _asignarTareas( tiempoMaxActual );
         return this.resultado;
-
     }
 
     /*
