@@ -17,7 +17,7 @@ public class Servicios {
     private Map<String,Tarea> mapTareas;
     private List<Tarea> tareasCriticas;
     private List<Tarea> tareasNoCriticas;
-    private Tree<Integer, LinkedList<Tarea>> arbol;
+    private Tree<Integer, Tarea> arbol;
     private int LIMITEDEPRIORIDAD;
 
     /*
@@ -53,7 +53,7 @@ public class Servicios {
             }
 
             //cargo arbol para servicio3
-            //this.arbol.add(tarea.getPrioridad(), tarea);
+            this.arbol.add(tarea.getPrioridad(), tarea);
         }
 
     }
@@ -61,19 +61,17 @@ public class Servicios {
     /*
      * Expresar la complejidad temporal del servicio 1.
      * Dado un identificador de tarea obtener toda la información de la tarea asociada.
-     * O(1)
-
+     * O(1) ya que el acceso a un elemento en un HashMap es constante
+    */
     public Tarea servicio1(String ID) {
-        return tareas.get(ID);
+        return mapTareas.get(ID);
     }
-*/
+
     /*
-     * Expresar la complejidad temporal del servicio 2.
      * Permitir que el usuario decida si quiere ver todas las tareas críticas o no críticas y generar
      * el listado apropiado resultante.
-     *
      * La complejidad va a ser O(1) porque el costo es constante, no depende de la cantidad de tareas.
-     */
+    */
     public List<Tarea> servicio2(boolean esCritica) {
         return esCritica ? this.tareasCriticas : this.tareasNoCriticas;
     }
@@ -81,26 +79,15 @@ public class Servicios {
     /*
      * Expresar la complejidad temporal del servicio 3.
      * Obtener todas las tareas entre 2 niveles de prioridad indicados.
-     * peor caso  O(p) siendo p los niveles de prioridad porque me pueden pedir tareas de todos los niveles de prioridad
      *
-     * TODO CONSULTAR:
-     * creo que al final conviene un hashmap con la misma clave-valor que el arbol
-     * porque el arbol cada vez que se pide una prioridad el buscarla tiene un costo logaritmico
-     * mientras que en un hashmap es constante
      *
      */
     public List<Tarea> servicio3(int prioridadInferior, int prioridadSuperior) {
-        if (prioridadInferior > 0 && prioridadSuperior <= LIMITEDEPRIORIDAD){
-            List<Tarea> resultado = new ArrayList<>();
-
-            for (int prioridad = prioridadInferior; prioridad <= prioridadSuperior; prioridad++) {
-
-                //resultado.addAll(arbol.get(prioridad));
-            }
-            return resultado;
-        }
-        return new ArrayList<>();
+        return this.arbol.searchBetween(prioridadInferior, prioridadSuperior);
     }
 
-
+    //getter para test
+    public Tree<Integer, Tarea> getArbol() {
+        return arbol;
+    }
 }

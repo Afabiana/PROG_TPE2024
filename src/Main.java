@@ -7,48 +7,82 @@ import main.tree.Tree;
 public class Main {
     public static void main(String[] args) {
 
-        Servicios servicios = new Servicios("./src/datasets/Procesadores.csv", "./src/datasets/Tareas.csv");
-
-        TreeMap arbol = new TreeMap();
-        TreeSet set = new TreeSet();
+        Servicios servicios = new Servicios("./src/datasets/Procesadores.csv", "./src/datasets/Tareas1.csv");
 
         CSVReader reader = new CSVReader();
-
-        LinkedList tareas = reader.readTasks("./src/datasets/Tareas.csv");
+        LinkedList<Tarea> tareas = reader.readTasks("./src/datasets/Tareas1.csv");
         List<Procesador> procesadores = reader.readProcessors("./src/datasets/Procesadores.csv");
 
-        /*
-        System.out.println("Tareas: criticas" + servicios.servicio2(true));
-        System.out.println("Tareas: no criticas" + servicios.servicio2(false));
+        System.out.println("arbol: " + servicios.getArbol());
 
+        //TEST CON DATASET 1
 
-        System.out.println("traer tarea 10: " + servicios.servicio1("T10"));
-        System.out.println("traer tarea 20: " + servicios.servicio1("T20"));
+        //SERVICIO 1
+        Tarea tarea3 = servicios.servicio1("T3");
+        Tarea tarea4 = servicios.servicio1("T4");
+        Tarea tarea5 = servicios.servicio1("T5");
 
-        System.out.println("tareas prrioridad > 30 && prioridad < 60 : " +
-                servicios.servicio3(30,60));
+        System.out.println("Tarea 3: " + tarea3);
+        System.out.println("Tarea 4: " + tarea4);
+        System.out.println("Tarea 5: " + tarea5);
 
-*/
-        System.out.println("Procesadores: " + procesadores);
-        System.out.println("Tareas: " + tareas);
-        System.out.println("resultado: xxxxxxxxxxxxxxxxxxxxxxxxxxx ");
-        long startTime = System.currentTimeMillis();  // arranca el timer
-        int tiempoLimite = 10;
-        AlgoritmoDeAsignacion algoritmoDeAsignacion = new AlgoritmoDeAsignacion();
-        algoritmoDeAsignacion.asignarTareas(procesadores, tareas, tiempoLimite);
-        algoritmoDeAsignacion.imprimirResultado();
+        //SERVICIO 2
+        List<Tarea> tareasCriticas = servicios.servicio2(true);
+        List<Tarea> tareasNoCriticas = servicios.servicio2(false);
 
+        System.out.println("Tareas criticas: " + tareasCriticas);
+        System.out.println("Tareas no criticas: " + tareasNoCriticas);
+
+        //SERVICIO 3
+        List<Tarea> tareasEntrePrioridades = servicios.servicio3(30, 60);
+        System.out.println("Tareas entre prioridades 30 y 60: " + tareasEntrePrioridades);
+
+        //BACKTRACKING con dataset 1 y Tiempo máximo de procesadores no refrigerados = 10
+        int tiempoMaxPorProcesador = 10;
+        Backtracking backtracking = new Backtracking();
+        backtracking.asignarTareas(procesadores, tareas, tiempoMaxPorProcesador);
+        backtracking.imprimirResultado();
+
+        //GREEDY con dataset 1 y Tiempo máximo de procesadores no refrigerados = 10
         Greedy greedy = new Greedy();
-        greedy.asignarTareas(procesadores, tareas, tiempoLimite);
+        greedy.asignarTareas(procesadores, tareas, tiempoMaxPorProcesador);
         greedy.imprimirResultado();
 
+        //BACKTRACKING con dataset 1 y Tiempo máximo de procesadores no refrigerados = 200
+        tiempoMaxPorProcesador = 200;
+        backtracking.asignarTareas(procesadores, tareas, tiempoMaxPorProcesador);
+        backtracking.imprimirResultado();
 
-        long endTime = System.currentTimeMillis();  // termina el timer
-        long duracion = endTime - startTime;  // Duración en milisegundos
-        System.out.println("Duración de la ejecución: " + duracion + " ms");
+        //GREEDY con dataset 1 y Tiempo máximo de procesadores no refrigerados = 200
+        greedy.asignarTareas(procesadores, tareas, tiempoMaxPorProcesador);
+        greedy.imprimirResultado();
 
+        //TEST CON DATASET 2
+        tiempoMaxPorProcesador = 200;
 
+        //BACKTRACKING con dataset 2 y Tiempo máximo de procesadores no refrigerados = 200
+        LinkedList<Tarea> tareas2 = reader.readTasks("./src/datasets/Tareas2.csv");
+        backtracking.asignarTareas(procesadores, tareas2, tiempoMaxPorProcesador);
+        backtracking.imprimirResultado();
 
+        //GREEDY con dataset 2 y Tiempo máximo de procesadores no refrigerados = 200
+        greedy.asignarTareas(procesadores, tareas2, tiempoMaxPorProcesador);
+        greedy.imprimirResultado();
+
+        //BACKTRACKING con dataset 2 y Tiempo máximo de procesadores no refrigerados = 100
+        tiempoMaxPorProcesador = 100;
+        backtracking.asignarTareas(procesadores, tareas2, tiempoMaxPorProcesador);
+        backtracking.imprimirResultado();
+
+        //GREEDY con dataset 2 y Tiempo máximo de procesadores no refrigerados = 100
+        greedy.asignarTareas(procesadores, tareas2, tiempoMaxPorProcesador);
+        greedy.imprimirResultado();
+
+        //BACKTRACKING con dataset 2 y Tiempo máximo de procesadores no refrigerados = 80
+        tiempoMaxPorProcesador = 80;
+        backtracking.asignarTareas(procesadores, tareas2, tiempoMaxPorProcesador);
+        backtracking.imprimirResultado();
+/*
         //ahora vamos a probar el arbol AVL
         Tree<Integer, String> tree = new Tree<>();
 
@@ -67,8 +101,88 @@ public class Main {
         tree.add(100, "100");
 
         System.out.println("Inorder traversal of constructed tree is : " + tree.toString());
-        //System.gc();
 
+        //otro arbol
+        System.out.println("ARBOL 2");
+        Tree<Integer, String> tree2 = new Tree<>();
 
+        //50, 10, 70, 60, 80
+        tree2.add(50, "cincuenta");
+        tree2.add(10, "diez");
+        tree2.add(20, "veinte");
+        tree2.add(70, "setenta");
+        tree2.add(60, "sesenta");
+        tree2.add(70, "tuki");
+        tree2.add(80, "ochenta");
+        System.out.println("Inorder traversal of constructed tree is : " + tree2.toString());
+
+        tree2.add(85, "ochenta y cinco");
+        tree2.add(85, "hola");
+
+        tree2.add(5, "cinco");
+        tree2.add(2, "dos");
+        System.out.println("Inorder traversal of constructed tree is : " + tree2.toString());
+
+        System.out.println(tree2.search(85));
+        System.out.println(tree2.searchBetween(9,86));
+
+        Tree<Integer, String> tree3 = new Tree<>();
+        tree3.add(100, "cien");
+        tree3.add(50, "cincuenta");
+        tree3.add(120, "ciento veinte");
+        tree3.add(110, "ciento diez");
+        tree3.add(101, "ciento uno");
+        System.out.println("Inorder traversal of constructed tree is : " + tree3.toString());
+
+        Tree<Integer, String> tree4 = new Tree<>();
+        tree4.add(100, "cien");
+        tree4.add(110, "ciento diez");
+        tree4.add(120, "ciento veinte");
+        tree4.add(121, "ciento veintiuno");
+        tree4.add(122, "ciento veintidos");
+        tree4.add(123, "ciento veintitres");
+        tree4.add(124, "ciento veinticuatro");
+        tree4.add(125, "ciento veinticinco");
+
+        System.out.println("Inorder traversal of constructed tree is : " + tree4.toString());
+        System.out.println(tree4.searchBetween(100, 124));
+
+        Tree<Integer, String> tree5 = new Tree<>();
+        //100,10, 5, 180, 168, 20, 182, 3, 25, 167, 181, 169, 110
+        tree5.add(100, "cien");
+        tree5.add(10, "diez");
+        tree5.add(5, "cinco");
+        tree5.add(180, "ciento ochenta");
+        tree5.add(168, "ciento sesenta y ocho");
+        tree5.add(20, "veinte");
+        tree5.add(182, "ciento ochenta y dos");
+        tree5.add(3, "tres");
+        tree5.add(25, "veinticinco");
+        tree5.add(167, "ciento sesenta y siete");
+        tree5.add(181, "ciento ochenta y uno");
+        tree5.add(169, "ciento sesenta y nueve");
+        tree5.add(110, "ciento diez");
+
+        System.out.println("Inorder traversal of constructed tree is : " + tree5.toString());
+
+        //100,10, 180, 5,  168, 20, 182, 3, 167, 25,  181, 169, 110
+        Tree<Integer, String> tree6 = new Tree<>();
+        tree6.add(100, "cien");
+        tree6.add(10, "diez");
+        tree6.add(180, "ciento ochenta");
+        tree6.add(5, "cinco");
+        tree6.add(168, "ciento sesenta y ocho");
+        tree6.add(20, "veinte");
+        tree6.add(182, "ciento ochenta y dos");
+        tree6.add(3, "tres");
+        tree6.add(167, "ciento sesenta y siete");
+        tree6.add(25, "veinticinco");
+        tree6.add(181, "ciento ochenta y uno");
+        tree6.add(169, "ciento sesenta y nueve");
+        tree6.add(110, "ciento diez");
+
+        System.out.println("Inorder traversal of constructed tree is : " + tree6.toString());
+        System.out.println(tree6.searchBetween(10, 120));
+*/
     }
 }

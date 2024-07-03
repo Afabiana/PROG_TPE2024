@@ -14,6 +14,7 @@ public class TreeNode <K, V> {
     public TreeNode(K key, V value) {
         this.key = key;
         this.values = new LinkedList<>();
+        this.values.add(value); //es una lista, asi que agrego el valor
         this.left = null;
         this.right = null;
         this.height = 1; //altura inicial
@@ -54,11 +55,11 @@ public class TreeNode <K, V> {
     @Override
     public String toString() {
         return "TreeNode{" +
-                "key=" + key +
-                ", values=" + values +
-                ", left=" + left +
-                ", right=" + right +
-                ", height=" + height +
+                "key=" + this.key +
+                ", values=" + this.values +
+                ", left=" + this.left +
+                ", right=" + this.right +
+                ", height=" + this.height +
                 '}';
     }
 }

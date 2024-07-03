@@ -3,7 +3,7 @@ package main;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AlgoritmoDeAsignacion{
+public class Backtracking {
     private List<Procesador> resultado;
     private List<Procesador> procesadores;
     private List<Tarea> tareas;
@@ -11,7 +11,7 @@ public class AlgoritmoDeAsignacion{
     private int tiempoMaxSolucion;
     private int cantidadEstados;
 
-    public AlgoritmoDeAsignacion(){
+    public Backtracking(){
         this.resultado = new ArrayList<>();
         this.tiempoMaxSolucion = Integer.MAX_VALUE;
         this.cantidadEstados = 0;
