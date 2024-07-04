@@ -6,7 +6,7 @@ import java.util.List;
 
 public class TreeNode <K, V> {
     private K key;
-    private List<V> values; //TODO: lista de valores o deberia aclarar en la parametrizacion que V es una lista?
+    private List<V> values;
     private TreeNode<K, V> left;
     private TreeNode<K, V> right;
     private int height;
