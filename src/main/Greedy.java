@@ -34,7 +34,6 @@ public class Greedy {
     * -Ordenar las tareas de mayor a menor tiempo de ejecución
     * -Iterar sobre las tareas y asignarlas a los procesadores disponibles que cumplan con las limitaciones
     * -El criterio para seleccionar el mejor candidato: el procesador con menor tiempo de procesamiento
-    *
     * -COMPLEJIDAD: O(n*m) donde n es la cantidad de tareas y m la cantidad de procesadores
     * ya que en el peor de los casos se recorren todas las tareas y se intenta asignar a todos los procesadores
     *

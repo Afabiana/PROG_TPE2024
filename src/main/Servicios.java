@@ -19,8 +19,9 @@ public class Servicios {
     private Tree<Integer, Tarea> arbol;
 
     /*
-     * Si nos quedamos con la complejidad mas alta de las operaciones que se realizan en el constructor
-     * la complejidad total del constructor es O(n log n) siendo n la cantidad de tareas
+     * Simplificando y tomando la complejidad mas alta de las funciones invocadas en el constructor
+     * la complejidad del constructor es O(n*h) siendo n la cantidad de tareas y h la altura del arbol
+     * de prioridades
      */
     public Servicios(String pathProcesadores, String pathTareas)
     {
@@ -35,8 +36,8 @@ public class Servicios {
         this.cargarEstructuras(tareasInicial);
     }
 
-    //teniendo en cuenta que el arbol es un arbol balanceado, la complejidad de insercion es O(log n) para cada insercion
-    //entnoces la complejidad total de cargarEstructuras es O(n log n) siendo n la cantidad de tareas
+    //teniendo en cuenta que la complejidad de insercion es O(h)
+    //la complejidad total de cargarEstructuras es O(n*h) siendo n la cantidad de tareas
     //ya que por cada tarea voy a tener que insertar en el arbol
     private void cargarEstructuras(List<Tarea> tareas) {
 
@@ -52,7 +53,7 @@ public class Servicios {
             }
 
             //cargo arbol para servicio3
-            this.arbol.add(tarea.getPrioridad(), tarea);//complejidad O(log n) siendo n la cantidad de tareas en el arbol
+            this.arbol.add(tarea.getPrioridad(), tarea);//complejidad O(h) siendo h la altura del arbol
         }
 
     }
