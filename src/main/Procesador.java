@@ -83,8 +83,10 @@ public class Procesador{
     }
 
     public String toString(){
-        return "Procesador " + this.id_procesador +": tiempoDeProcesamiento :"
-                + this.tiempoProcesamiento +"\n tareas: "+ this.tareasAsignadas + "\n";
+        return this.id_procesador
+                +" tareas: "+ this.tareasAsignadas
+                +" - tiempo"+this.id_procesador +": "+ this.tiempoProcesamiento
+                + "\n";
     }
 
     public boolean equals(Object o){

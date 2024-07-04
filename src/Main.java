@@ -2,52 +2,95 @@ import main.*;
 import utils.CSVReader;
 
 import java.util.*;
-import main.tree.Tree;
 
 public class Main {
     public static void main(String[] args) {
 
-
-
         Servicios servicios = new Servicios("./src/datasets/Procesadores.csv", "./src/datasets/Tareas1.csv");
-
-
         CSVReader reader = new CSVReader();
+
         List<Procesador> procesadores = reader.readProcessors("./src/datasets/Procesadores.csv");
         LinkedList<Tarea> tareas1 = reader.readTasks("./src/datasets/Tareas1.csv");
         LinkedList<Tarea> tareas2 = reader.readTasks("./src/datasets/Tareas2.csv");
 
-
-        System.out.println("arbol: " + servicios.getArbol());
-
         //TEST CON DATASET 1
-
+        System.out.println("-------ENTREGA 1: DATASET 1-------");
         //SERVICIO 1
+        System.out.println("-------SERVICIO 1-------");
         Tarea tarea3 = servicios.servicio1("T3");
         Tarea tarea4 = servicios.servicio1("T4");
         Tarea tarea5 = servicios.servicio1("T5");
 
-        System.out.println("Tarea 3: " + tarea3);
-        System.out.println("Tarea 4: " + tarea4);
-        System.out.println("Tarea 5: " + tarea5);
+        System.out.println("Tarea 3: " + tarea3.getId() + "-" + tarea3.getNombre());
+        System.out.println("Tarea 4: " + tarea4.getId() + "-" + tarea4.getNombre());
+        System.out.println("Tarea 5: " + tarea5.getId() + "-" + tarea5.getNombre());
 
         //SERVICIO 2
+        System.out.println("-------SERVICIO 2-------");
         List<Tarea> tareasCriticas = servicios.servicio2(true);
         List<Tarea> tareasNoCriticas = servicios.servicio2(false);
 
-        System.out.println("Tareas criticas: " + tareasCriticas);
-        System.out.println("Tareas no criticas: " + tareasNoCriticas);
+        System.out.print("Tareas criticas: ");
+        for (Tarea tarea : tareasCriticas) {
+            System.out.print(tarea.getNombre() + "- esCritica(" + tarea.esCritica() + ") ");
+        }
+
+        System.out.print("\nTareas no criticas: ");
+        for (Tarea tarea : tareasNoCriticas) {
+            System.out.print(tarea.getNombre() + "- esCritica(" + tarea.esCritica() + ") ");
+        }
 
         //SERVICIO 3
+        System.out.println("\n-------SERVICIO 3-------");
         List<Tarea> tareasEntrePrioridades = servicios.servicio3(30, 60);
         System.out.println("Tareas entre prioridades 30 y 60: " + tareasEntrePrioridades);
 
-        //BACKTRACKING con dataset 1 y Tiempo máximo de procesadores no refrigerados = 10
+        //TEST CON DATASET 2
+        Servicios servicios2 = new Servicios("./src/datasets/Procesadores.csv", "./src/datasets/Tareas2.csv");
+        System.out.println("-------ENTREGA 1: DATASET 2-------");
+
+        //SERVICIO 1
+        System.out.println("-------SERVICIO 1-------");
+        Tarea tarea8 = servicios2.servicio1("T8");
+        Tarea tarea1 = servicios2.servicio1("T1");
+        Tarea tarea7 = servicios2.servicio1("T7");
+        Tarea tarea6 = servicios2.servicio1("T6");
+
+        System.out.println("Tarea 8: " + tarea8.getId() + "-" + tarea8.getNombre());
+        System.out.println("Tarea 1: " + tarea1.getId() + "-" + tarea1.getNombre());
+        System.out.println("Tarea 7: " + tarea7.getId() + "-" + tarea7.getNombre());
+        System.out.println("Tarea 6: " + tarea6.getId() + "-" + tarea6.getNombre());
+
+        //SERVICIO 2
+        System.out.println("-------SERVICIO 2-------");
+        List<Tarea> tareasCriticas2 = servicios2.servicio2(true);
+        List<Tarea> tareasNoCriticas2 = servicios2.servicio2(false);
+
+        System.out.print("Tareas criticas: ");
+        for (Tarea tarea : tareasCriticas2) {
+            System.out.print(tarea.getNombre() + "- esCritica(" + tarea.esCritica() + ") ");
+        }
+
+        System.out.print("\nTareas no criticas: ");
+        for (Tarea tarea : tareasNoCriticas2) {
+            System.out.print(tarea.getNombre() + "- esCritica(" + tarea.esCritica() + ") ");
+        }
+
+        //SERVICIO 3
+        System.out.println("\n-------SERVICIO 3-------");
+        List<Tarea> tareasEntrePrioridades2 = servicios2.servicio3(30, 60);
+        System.out.println("Tareas entre prioridades 30 y 60: " + tareasEntrePrioridades2);
+
+
+        //-------ENTREGA SEGUNDA PARTE-------
+        System.out.println("-------ENTREGA 2: DATASET 1-------");
+        //DATASET 1 y Tiempo máximo de procesadores no refrigerados = 10
+        System.out.println("-------DATASET 1 - tiempo maximo de procesadores no refrigerados = 10-------");
         Backtracking backtracking = new Backtracking(procesadores, tareas1);
         Greedy greedy = new Greedy(procesadores, tareas1);
         int tiempoMaxPorProcesador = 10;
-        System.out.println("dataset 1 - tiempo maximo de procesadores no refrigerados = 10");
 
+        //BACKTRACKING con dataset 1 y Tiempo máximo de procesadores no refrigerados = 10
         backtracking.asignarTareas( tiempoMaxPorProcesador  );
         backtracking.imprimirResultado();
 
@@ -56,23 +99,23 @@ public class Main {
         greedy.imprimirResultado();
 
         //BACKTRACKING con dataset 1 y Tiempo máximo de procesadores no refrigerados = 200
+        System.out.println("-------DATASET 1 - tiempo maximo de procesadores no refrigerados = 200-------");
         backtracking = new Backtracking(procesadores, tareas1);
-        System.out.println("dataset 1 - tiempo maximo de procesadores no refrigerados = 200");
+        greedy = new Greedy(procesadores, tareas1);
         tiempoMaxPorProcesador = 200;
 
         backtracking.asignarTareas( tiempoMaxPorProcesador  );
         backtracking.imprimirResultado();
 
-        //GREEDY con dataset 1 y Tiempo máximo de procesadores no refrigerados = 200
-        greedy = new Greedy(procesadores, tareas1);
         greedy.asignarTareas(   tiempoMaxPorProcesador  );
         greedy.imprimirResultado();
 
         //TEST CON DATASET 2
+        System.out.println("-------ENTREGA 2: DATASET 2-------");
+        System.out.println("-------DATASET 2 - tiempo maximo de procesadores no refrigerados = 200-------");
         backtracking = new Backtracking(procesadores, tareas2);
         greedy = new Greedy(procesadores, tareas2);
         tiempoMaxPorProcesador = 200;
-        System.out.println("dataset 2 - tiempo maximo de procesadores no refrigerados = 200");
 
         //BACKTRACKING con dataset 2 y Tiempo máximo de procesadores no refrigerados = 200
         backtracking.asignarTareas(   tiempoMaxPorProcesador   );
@@ -82,12 +125,13 @@ public class Main {
         greedy.asignarTareas(   tiempoMaxPorProcesador  );
         greedy.imprimirResultado();
 
-        //BACKTRACKING con dataset 2 y Tiempo máximo de procesadores no refrigerados = 100
+        //DATASET 2 y Tiempo máximo de procesadores no refrigerados = 100
+        System.out.println("-------DATASET 2 - tiempo maximo de procesadores no refrigerados = 100-------");
         backtracking = new Backtracking(procesadores, tareas2);
         greedy = new Greedy(procesadores, tareas2);
         tiempoMaxPorProcesador = 100;
-        System.out.println("dataset 2 - tiempo maximo de procesadores no refrigerados = 100");
 
+        //BACKTRACKING con dataset 2 y Tiempo máximo de procesadores no refrigerados = 100
         backtracking.asignarTareas(   tiempoMaxPorProcesador   );
         backtracking.imprimirResultado();
 
@@ -95,14 +139,15 @@ public class Main {
         greedy.asignarTareas(   tiempoMaxPorProcesador   );
         greedy.imprimirResultado();
 
-        //BACKTRACKING con dataset 2 y Tiempo máximo de procesadores no refrigerados = 80
+        //DATASET 2 y Tiempo máximo de procesadores no refrigerados = 80
+        System.out.println("-------DATASET 2 - tiempo maximo de procesadores no refrigerados = 80-------");
         backtracking = new Backtracking(procesadores, tareas2);
         greedy = new Greedy(procesadores, tareas2);
         tiempoMaxPorProcesador = 80;
 
+        //BACKTRACKING con dataset 2 y Tiempo máximo de procesadores no refrigerados = 80
         backtracking.asignarTareas(   tiempoMaxPorProcesador   );
         backtracking.imprimirResultado();
-
 
         //GREEDY con dataset 2 y Tiempo máximo de procesadores no refrigerados = 80
         greedy.asignarTareas(   tiempoMaxPorProcesador   );

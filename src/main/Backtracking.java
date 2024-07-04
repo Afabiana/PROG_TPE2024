@@ -21,8 +21,6 @@ public class Backtracking {
     }
 
     public List<Procesador> asignarTareas(int tiempoMaxPorProcesador){
-        System.out.println("tiempo maximo por procesador: " + tiempoMaxPorProcesador);
-        //Collections.sort(this.tareas); esto nomas lo hice para que al probarlo encuentre un toque mas rapido la solucion
         this.tiempoMaxPorProcesador = tiempoMaxPorProcesador; //tiempo maximo que puede tener un procesador no refrigerado
         int tiempoMaxActual = 0;
         _asignarTareas( tiempoMaxActual );
@@ -92,7 +90,7 @@ public class Backtracking {
             for (Procesador procesador : this.resultado){
                 resultado += procesador.toString();
             }
-            resultado += "Solucion obtenida - Tiempo máximo de ejecución: " + this.tiempoMaxSolucion + "\n";
+            resultado += "Backtracking - Tiempo máximo de ejecución: " + this.tiempoMaxSolucion + "\n";
             resultado += "Cantidad de estados generados: " + this.cantidadEstados + "\n";
             System.out.println(resultado);
         }else {

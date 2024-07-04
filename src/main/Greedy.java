@@ -12,9 +12,10 @@ public class Greedy {
     private int tiempoMaxSolucion;
 
     public Greedy(List<Procesador> procesadores, List<Tarea> tareas){
-        this.procesadores = new ArrayList<>(procesadores);
+        this.procesadores = copiarProcesadores(procesadores);
         this.tareas = new LinkedList<>(tareas);
     }
+
 
     public List<Procesador> asignarTareas( int tiempoLimite){
         //capaz todas estas variables se podrian pasar por parametro en el constructor
@@ -32,7 +33,6 @@ public class Greedy {
     * La tecnica implementada se basa en
     * -Ordenar las tareas de mayor a menor tiempo de ejecución
     * -Iterar sobre las tareas y asignarlas a los procesadores disponibles que cumplan con las limitaciones
-    * -ACLARACION: en este caso los candidatos son las tareas, no los procesadores
     * -El criterio para seleccionar el mejor candidato: el procesador con menor tiempo de procesamiento
     *
     * -COMPLEJIDAD: O(n*m) donde n es la cantidad de tareas y m la cantidad de procesadores
@@ -102,17 +102,26 @@ public class Greedy {
 
 
     public void imprimirResultado(){
+        System.out.println("GREEDY:");
         if (!this.resultado.isEmpty()){
             String resultado = "Solución obtenida: \n";
             for (Procesador procesador : this.resultado){
                 resultado += procesador.toString();
             }
             resultado += "Solucion obtenida - Tiempo máximo de ejecución: " + this.tiempoMaxSolucion + "\n";
-            resultado += "Cantidad de estados generados: " + this.cantidadEstados + "\n";
+            resultado += "Cantidad de candidatos : " + this.cantidadEstados + "\n";
             System.out.println(resultado);
         }else {
-            System.out.println("No se pudo asignar las tareas a los procesadores");
+            System.out.println("No se pudo asignar las tareas a los procesadores con esta estrategia \n");
         }
 
+    }
+
+    private List<Procesador> copiarProcesadores(List<Procesador> procesadores) {
+        List<Procesador> copiaProcesadores = new ArrayList<>();
+        for (Procesador procesador : procesadores){
+            copiaProcesadores.add(new Procesador(procesador));
+        }
+        return copiaProcesadores;
     }
 }

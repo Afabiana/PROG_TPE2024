@@ -31,7 +31,7 @@ public class CSVReader {
 			Integer prioridad = Integer.parseInt(line[4].trim());
 			// Aca instanciar lo que necesiten en base a los datos leidos
 			Tarea actual = new Tarea(id, nombre, tiempo, critica, prioridad);
-			//System.out.println(actual);
+
 			tareas.add(actual);
 		}
 		return tareas;

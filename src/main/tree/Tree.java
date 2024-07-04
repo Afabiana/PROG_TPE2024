@@ -47,6 +47,7 @@ public class Tree<K extends Comparable<K>, V> { //necesito que K sea comparable 
         return rebalance(prevNode,  currentNode); //rebalanceo el arbol
     }
 
+    //LO HICIMOS BALANCEADO PARA EVITAR QUE TERMINE SIENDO UN ARBOL ENREDADERA TIPO LISTA VINCULADA
     private TreeNode<K,V> rebalance(TreeNode<K,V> prevNode, TreeNode<K,V> currentNode) {
         updateHeight(currentNode);
         int balance = getBalance(currentNode);
@@ -84,7 +85,6 @@ public class Tree<K extends Comparable<K>, V> { //necesito que K sea comparable 
     }
 
     private TreeNode<K,V> leftRotation(TreeNode<K,V> unbalancedNode) {
-        System.out.println("hubo rotacion izquierda en el subarbol con raiz: " + unbalancedNode.getKey());
         TreeNode<K,V> newRoot = unbalancedNode.getRight(); //newRoot puede ser la raiz del arbol o un subarbol
         TreeNode<K,V> leftSubtreeOfNewRoot = newRoot.getLeft();
 
@@ -99,7 +99,6 @@ public class Tree<K extends Comparable<K>, V> { //necesito que K sea comparable 
     }
 
     private TreeNode<K,V> rightRotation(TreeNode<K,V> unbalancedNode) {
-        System.out.println("hubo rotacion derecha en el subarbol con raiz: " + unbalancedNode.getKey());
         TreeNode<K,V> newRoot = unbalancedNode.getLeft();
         TreeNode<K,V> rightSubtreeOfNewRoot = newRoot.getRight();
 
@@ -158,19 +157,16 @@ public class Tree<K extends Comparable<K>, V> { //necesito que K sea comparable 
             return result;
         }
         searchBetween(this.root, lower, upper, result);
-        System.out.println("iteraciones: " + iteraciones);
         return result;
     }
 
-    int iteraciones = 0;
+
     private List<V> searchBetween(TreeNode<K, V> currentNode, K lower, K upper, List<V> result) {
-        iteraciones++;
         if (currentNode == null) {
             return result;
         }
         int compLower = currentNode.getKey().compareTo(lower);
         int compUpper = currentNode.getKey().compareTo(upper);
-
 
         if (compLower <= 0) { //mientras la key actual sea menor al lower, busco a la derecha
             searchBetween(currentNode.getRight(), lower, upper, result);
